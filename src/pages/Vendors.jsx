@@ -3,23 +3,28 @@ import { useNavigate } from "react-router-dom";
 import vendors from "../data/vendors";
 import VendorCard from "../components/vendor/VendorCard";
 
+
 const Vendors = () => {
   const navigate = useNavigate();
   const [filterCategory, setFilterCategory] = useState("All");
   const [sortBy, setSortBy] = useState("name");
   const [searchTerm, setSearchTerm] = useState("");
 
-  // Get unique categories
+
   const categories = ["All", ...new Set(vendors.map((v) => v.category))];
 
-  // Filter and sort vendors
+
   const filteredVendors = vendors
     .filter((vendor) => {
       const categoryMatch =
         filterCategory === "All" || vendor.category === filterCategory;
+
+
       const searchMatch = vendor.name
         .toLowerCase()
         .includes(searchTerm.toLowerCase());
+
+
       return categoryMatch && searchMatch && vendor.isActive;
     })
     .sort((a, b) => {
@@ -35,76 +40,74 @@ const Vendors = () => {
       }
     });
 
+
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      {/* Header */}
-      <div className="max-w-7xl mx-auto mb-8">
-        <h1 className="text-4xl font-bold text-gray-800 mb-2">
-          🍽️ Food Court Vendors
-        </h1>
-        <p className="text-gray-600">
-          Discover {filteredVendors.length} amazing food vendors
-        </p>
-      </div>
+    <div className="min-h-screen bg-gray-50">
 
-      {/* Search & Filter Bar */}
-      <div className="max-w-7xl mx-auto mb-8">
-        <div className="bg-white rounded-lg shadow-md p-6 space-y-4">
-          {/* Search */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              🔍 Search Vendor
-            </label>
-            <input
-              type="text"
-              placeholder="Search by vendor name..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
-            />
-          </div>
 
-          {/* Filter & Sort */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Category Filter */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                📂 Category
-              </label>
+      {/* HEADER + FILTERS IN SAME ROW */}
+      <div className="border-b border-gray-200 bg-white">
+        <div className="max-w-7xl mx-auto px-6 py-4">
+          
+          {/* TOP ROW: Title + Search + Category + Sort */}
+          <div className="flex flex-col lg:flex-row lg:items-center gap-4">
+            
+            {/* TITLE */}
+            <div className="flex-1">
+              <h1 className="text-2xl font-bold text-gray-900 uppercase">
+                Food Court
+              </h1>
+              <p className="text-gray-500 text-xs mt-1">
+                {filteredVendors.length} active vendors available
+              </p>
+            </div>
+
+
+            {/* SEARCH + CATEGORY + SORT */}
+            <div className="flex flex-col sm:flex-row gap-3">
+              
+              {/* SEARCH */}
+              <input
+                type="text"
+                placeholder="Search vendors..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="px-3 py-2 border border-gray-300 focus:border-black outline-none transition text-sm w-full sm:w-48"
+              />
+
+
+              {/* CATEGORY */}
               <select
                 value={filterCategory}
                 onChange={(e) => setFilterCategory(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                className="px-3 py-2 border border-gray-300 focus:border-black outline-none text-sm w-full sm:w-36"
               >
                 {categories.map((category) => (
                   <option key={category} value={category}>
-                    {category}
+                    {category.toUpperCase()}
                   </option>
                 ))}
               </select>
-            </div>
 
-            {/* Sort */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                ↕️ Sort By
-              </label>
+
+              {/* SORT */}
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                className="px-3 py-2 border border-gray-300 focus:border-black outline-none text-sm w-full sm:w-36"
               >
-                <option value="name">Name (A-Z)</option>
-                <option value="rating">Highest Rating</option>
-                <option value="location">Location</option>
+                <option value="name">NAME (A–Z)</option>
+                <option value="rating">RATING (HIGH–LOW)</option>
+                <option value="location">LOCATION</option>
               </select>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Vendors Grid */}
-      <div className="max-w-7xl mx-auto">
+
+      {/* GRID */}
+      <div className="max-w-7xl mx-auto px-6 pb-12">
         {filteredVendors.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {filteredVendors.map((vendor) => (
@@ -112,9 +115,9 @@ const Vendors = () => {
             ))}
           </div>
         ) : (
-          <div className="text-center py-12">
-            <p className="text-xl text-gray-600">
-              No vendors found matching your criteria
+          <div className="text-center py-20">
+            <p className="text-gray-500 uppercase tracking-widest">
+              No vendors found
             </p>
           </div>
         )}
@@ -122,5 +125,6 @@ const Vendors = () => {
     </div>
   );
 };
+
 
 export default Vendors;

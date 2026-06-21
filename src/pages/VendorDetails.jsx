@@ -10,19 +10,18 @@ const VendorDetails = () => {
   const { addToCart } = useContext(CartContext);
   const [selectedCategory, setSelectedCategory] = useState("All");
 
-  // Find vendor
   const vendor = vendors.find((v) => v.id === parseInt(vendorId));
 
   if (!vendor) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">
             Vendor Not Found
           </h2>
           <button
             onClick={() => navigate("/vendors")}
-            className="bg-orange-600 hover:bg-orange-700 text-white px-6 py-2 rounded-lg"
+            className="bg-black hover:bg-gray-900 text-white px-6 py-2"
           >
             Back to Vendors
           </button>
@@ -31,14 +30,9 @@ const VendorDetails = () => {
     );
   }
 
-  // Get vendor's menu items
   const vendorMenu = menuItems.filter((item) => item.vendorId === vendor.id);
-  const categories = [
-    "All",
-    ...new Set(vendorMenu.map((item) => item.category)),
-  ];
+  const categories = ["All", ...new Set(vendorMenu.map((item) => item.category))];
 
-  // Filter items by category
   const filteredItems = vendorMenu.filter(
     (item) => selectedCategory === "All" || item.category === selectedCategory
   );
@@ -51,67 +45,77 @@ const VendorDetails = () => {
       vendorId: vendor.id,
       vendorName: vendor.name,
     });
-    alert(`${item.name} added to cart!`);
   };
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header with Back Button */}
-      <div className="bg-white shadow-sm sticky top-0 z-10">
+      
+      <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <button
             onClick={() => navigate("/vendors")}
-            className="flex items-center text-orange-600 hover:text-orange-700 font-semibold"
+            className="text-black hover:text-[#E50010] font-semibold transition-colors"
           >
-            ← Back to Vendors
+            ← Back
           </button>
-          <h1 className="text-2xl font-bold text-gray-800">Menu</h1>
-          <div className="w-32"></div>
+
+          <h1 className="text-lg font-bold tracking-widest text-gray-900 uppercase">
+            Menu
+          </h1>
+
+          <div className="w-20"></div>
         </div>
       </div>
 
-      {/* Vendor Info */}
-      <div className="bg-gradient-to-r from-orange-600 to-orange-700 text-white p-8">
+      
+      <div className="bg-white border-b border-gray-200 p-8">
         <div className="max-w-7xl mx-auto">
-          <h1 className="text-4xl font-bold mb-2">{vendor.name}</h1>
-          <div className="flex flex-wrap gap-6 text-orange-50">
+          <h1 className="text-4xl font-bold text-gray-900 tracking-tight">
+            {vendor.name}
+          </h1>
+
+          <div className="flex flex-wrap gap-8 mt-4 text-sm text-gray-700">
             <div>
-              <p className="text-sm opacity-90">Category</p>
-              <p className="text-lg font-semibold">{vendor.category}</p>
+              <p className="text-gray-400 uppercase text-xs">Category</p>
+              <p className="font-semibold">{vendor.category}</p>
             </div>
+
             <div>
-              <p className="text-sm opacity-90">Rating</p>
-              <p className="text-lg font-semibold">⭐ {vendor.rating}</p>
+              <p className="text-gray-400 uppercase text-xs">Rating</p>
+              <p className="font-semibold">⭐ {vendor.rating}</p>
             </div>
+
             <div>
-              <p className="text-sm opacity-90">Location</p>
-              <p className="text-lg font-semibold">
+              <p className="text-gray-400 uppercase text-xs">Location</p>
+              <p className="font-semibold">
                 {vendor.location} - {vendor.stallNumber}
               </p>
             </div>
+
             <div>
-              <p className="text-sm opacity-90">Hours</p>
-              <p className="text-lg font-semibold">{vendor.openingHours}</p>
+              <p className="text-gray-400 uppercase text-xs">Hours</p>
+              <p className="font-semibold">{vendor.openingHours}</p>
             </div>
+
             <div>
-              <p className="text-sm opacity-90">Contact</p>
-              <p className="text-lg font-semibold">{vendor.phone}</p>
+              <p className="text-gray-400 uppercase text-xs">Contact</p>
+              <p className="font-semibold">{vendor.phone}</p>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Category Filter */}
-      <div className="max-w-7xl mx-auto px-6 py-8">
-        <div className="flex gap-3 overflow-x-auto pb-4">
+      {/* Categories */}
+      <div className="max-w-7xl mx-auto px-6 py-6">
+        <div className="flex gap-3 overflow-x-auto">
           {categories.map((category) => (
             <button
               key={category}
               onClick={() => setSelectedCategory(category)}
-              className={`px-6 py-2 rounded-full font-semibold whitespace-nowrap transition-all ${
+              className={`px-5 py-2 border text-sm font-semibold uppercase tracking-wide transition-all whitespace-nowrap ${
                 selectedCategory === category
-                  ? "bg-orange-600 text-white shadow-lg"
-                  : "bg-white text-gray-700 border-2 border-gray-200 hover:border-orange-600"
+                  ? "bg-black text-white border-black"
+                  : "bg-white text-gray-800 border-gray-300 hover:border-[#E50010] hover:text-[#E50010]"
               }`}
             >
               {category}
@@ -120,7 +124,7 @@ const VendorDetails = () => {
         </div>
       </div>
 
-      {/* Menu Items Grid */}
+      {/* Items */}
       <div className="max-w-7xl mx-auto px-6 pb-12">
         {filteredItems.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -133,62 +137,65 @@ const VendorDetails = () => {
             ))}
           </div>
         ) : (
-          <div className="text-center py-12">
-            <p className="text-xl text-gray-600">
-              No items available in this category
-            </p>
-          </div>
+          <p className="text-center text-gray-500 py-12">
+            No items available
+          </p>
         )}
       </div>
     </div>
   );
 };
 
-// Menu Item Component
+/* ---------------- MENU ITEM ---------------- */
+
 const MenuItem = ({ item, onAddToCart }) => {
   return (
-    <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow overflow-hidden">
-      {/* Item Image Placeholder */}
-      <div className="bg-gradient-to-br from-orange-100 to-orange-50 h-40 flex items-center justify-center text-5xl">
+    <div className="bg-white border border-gray-200 hover:border-gray-400 transition-all">
+      
+      {/* Image */}
+      <div className="h-40 flex items-center justify-center text-5xl bg-gray-50">
         {item.emoji || "🍽️"}
       </div>
 
-      {/* Item Info */}
+      {/* Content */}
       <div className="p-4 space-y-3">
-        <div>
-          <h3 className="text-lg font-bold text-gray-800">{item.name}</h3>
-          <p className="text-xs text-gray-500 font-medium">{item.category}</p>
-        </div>
+        <h3 className="text-lg font-bold text-gray-900">{item.name}</h3>
+
+        <p className="text-xs uppercase tracking-wide text-gray-400">
+          {item.category}
+        </p>
 
         <p className="text-sm text-gray-600">{item.description}</p>
 
-        {/* Rating & Availability */}
-        <div className="flex items-center justify-between">
-          <span className="text-yellow-500 font-semibold">
+        {/* Status */}
+        <div className="flex justify-between text-sm">
+          <span className="text-gray-900 font-semibold">
             {item.rating ? `⭐ ${item.rating}` : "New"}
           </span>
+
           <span
-            className={`text-xs font-semibold px-2 py-1 rounded-full ${
+            className={`text-xs border px-2 py-1 uppercase tracking-wide ${
               item.available
-                ? "bg-green-100 text-green-800"
-                : "bg-red-100 text-red-800"
+                ? "border-gray-300 text-gray-700"
+                : "border-red-300 text-[#E50010]"
             }`}
           >
-            {item.available ? "Available" : "Out of Stock"}
+            {item.available ? "Available" : "Out of stock"}
           </span>
         </div>
 
-        {/* Price & Button */}
-        <div className="flex items-center justify-between pt-2 border-t border-gray-200">
-          <span className="text-2xl font-bold text-orange-600">
+        {/* Bottom */}
+        <div className="flex items-center justify-between border-t pt-3 border-gray-200">
+          <span className="text-xl font-bold text-gray-900">
             ₹{item.price}
           </span>
+
           <button
             onClick={onAddToCart}
             disabled={!item.available}
-            className="bg-orange-600 hover:bg-orange-700 disabled:bg-gray-400 text-white px-4 py-2 rounded-lg font-semibold transition-colors disabled:cursor-not-allowed"
+            className="bg-black text-white px-4 py-2 text-sm font-semibold uppercase tracking-wide hover:bg-[#E50010] disabled:bg-gray-300 transition-colors"
           >
-            Add to Cart
+            Add
           </button>
         </div>
       </div>
