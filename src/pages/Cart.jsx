@@ -1,8 +1,10 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CartContext } from "../contexts/CartContext";
 
 const Cart = () => {
+  const navigate = useNavigate();
+
   const {
     cart,
     removeFromCart,
@@ -40,7 +42,7 @@ const Cart = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-10">
-
+      
       {/* Page Header */}
       <div className="mb-8">
         <h1 className="text-4xl font-bold">
@@ -79,10 +81,10 @@ const Cart = () => {
                   </p>
                 </div>
 
-                {/* Remove */}
+                {/* Remove Button */}
                 <button
                   onClick={() => removeFromCart(item.id)}
-                  className="text-red-600 hover:text-red-800"
+                  className="text-red-600 hover:text-red-800 font-medium"
                 >
                   Remove
                 </button>
@@ -165,13 +167,14 @@ const Cart = () => {
 
             </div>
 
-            {/* Buttons */}
+            {/* Action Buttons */}
             <div className="mt-6 space-y-3">
 
               <button
+                onClick={() => navigate("/checkout")}
                 className="w-full bg-black text-white py-3 rounded hover:bg-red-600 transition"
               >
-                Checkout
+                Proceed to Checkout
               </button>
 
               <button

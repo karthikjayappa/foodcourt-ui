@@ -4,6 +4,7 @@ import Vendors from "../pages/Vendors";
 import VendorDetails from "../pages/VendorDetails";
 import Cart from "../pages/Cart";
 import Orders from "../pages/Orders";
+import Checkout from "../pages/Checkout";
 
 const AppRoutes = () => {
   return (
@@ -13,6 +14,7 @@ const AppRoutes = () => {
       <Route path="/vendor/:vendorId" element={<VendorDetails />} />
       <Route path="/cart" element={<Cart />} />
       <Route path="/orders" element={<Orders />} />
+      <Route path="/checkout" element={<Checkout />} />
     </Routes>
   );
 };
