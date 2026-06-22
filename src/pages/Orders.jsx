@@ -1,132 +1,182 @@
-import React from "react";
-
-const orders = [
-  {
-    id: "ORD001",
-    vendor: "Spice Junction",
-    items: ["Masala Dosa", "Filter Coffee"],
-    total: 180,
-    status: "Preparing",
-    date: "22 Jun 2026",
-  },
-  {
-    id: "ORD002",
-    vendor: "Burger Hub",
-    items: ["Chicken Burger", "French Fries"],
-    total: 320,
-    status: "Ready",
-    date: "21 Jun 2026",
-  },
-  {
-    id: "ORD003",
-    vendor: "Pizza Corner",
-    items: ["Margherita Pizza"],
-    total: 299,
-    status: "Delivered",
-    date: "20 Jun 2026",
-  },
-];
+import { useEffect, useState } from "react";
 
 const Orders = () => {
-  const getStatusColor = (status) => {
-    switch (status) {
-      case "Preparing":
-        return "bg-yellow-100 text-yellow-700 border-yellow-300";
+  const [orders, setOrders] = useState([]);
 
-      case "Ready":
-        return "bg-green-100 text-green-700 border-green-300";
+  useEffect(() => {
+    const savedOrders =
+      JSON.parse(localStorage.getItem("orders")) || [];
 
-      case "Delivered":
-        return "bg-blue-100 text-blue-700 border-blue-300";
+    setOrders(savedOrders.reverse());
+  }, []);
 
-      default:
-        return "bg-gray-100 text-gray-700 border-gray-300";
-    }
-  };
+  if (orders.length === 0) {
+    return (
+      <div className="max-w-7xl mx-auto px-6 py-12 text-center">
+        <h1 className="text-3xl font-bold mb-4">
+          My Orders
+        </h1>
+
+        <p className="text-gray-500">
+          No orders placed yet.
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-10">
+
       {/* Header */}
-      <div className="mb-10">
-        <h1 className="text-4xl font-bold text-gray-900">
+      <div className="mb-8">
+        <h1 className="text-4xl font-bold">
           My Orders
         </h1>
 
         <p className="text-gray-500 mt-2">
-          Track your recent food orders.
+          Track all your food orders.
         </p>
       </div>
 
-      {/* Orders List */}
+      {/* Orders */}
       <div className="space-y-6">
+
         {orders.map((order) => (
           <div
             key={order.id}
-            className="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-md transition"
+            className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm"
           >
-            {/* Top Row */}
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+
+            {/* Order Header */}
+            <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-3 mb-5">
 
               <div>
-                <h2 className="text-lg font-bold">
-                  {order.id}
+                <h2 className="text-xl font-bold">
+                  Order #{order.id}
                 </h2>
 
-                <p className="text-gray-500 text-sm">
+                <p className="text-sm text-gray-500">
                   {order.date}
                 </p>
               </div>
 
               <span
-                className={`px-3 py-1 text-sm font-semibold border rounded-full w-fit ${getStatusColor(
-                  order.status
-                )}`}
+                className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${
+                  order.status === "Delivered"
+                    ? "bg-green-100 text-green-700"
+                    : order.status === "Ready"
+                    ? "bg-blue-100 text-blue-700"
+                    : "bg-yellow-100 text-yellow-700"
+                }`}
               >
                 {order.status}
               </span>
+
+            </div>
+
+            {/* Customer Information */}
+            <div className="grid md:grid-cols-3 gap-4 mb-6">
+
+              <div>
+                <p className="text-gray-500 text-sm">
+                  Customer
+                </p>
+
+                <p className="font-semibold">
+                  {order.customerName}
+                </p>
+              </div>
+
+              <div>
+                <p className="text-gray-500 text-sm">
+                  Phone
+                </p>
+
+                <p className="font-semibold">
+                  {order.phone}
+                </p>
+              </div>
+
+              <div>
+                <p className="text-gray-500 text-sm">
+                  Table Number
+                </p>
+
+                <p className="font-semibold">
+                  {order.tableNumber}
+                </p>
+              </div>
+
             </div>
 
             {/* Vendor */}
-            <div className="mt-5">
-              <p className="text-sm text-gray-500 uppercase">
+            <div className="mb-5">
+              <p className="text-gray-500 text-sm">
                 Vendor
               </p>
 
-              <p className="font-semibold text-gray-900">
+              <p className="font-semibold">
                 {order.vendor}
               </p>
             </div>
 
-            {/* Items */}
-            <div className="mt-4">
-              <p className="text-sm text-gray-500 uppercase mb-2">
-                Items
-              </p>
+            {/* Ordered Items */}
+            <div className="border-t pt-4">
 
-              <div className="flex flex-wrap gap-2">
+              <h3 className="font-semibold mb-3">
+                Ordered Items
+              </h3>
+
+              <div className="space-y-2">
+
                 {order.items.map((item, index) => (
-                  <span
+                  <div
                     key={index}
-                    className="border border-gray-300 px-3 py-1 rounded text-sm"
+                    className="flex justify-between"
                   >
-                    {item}
-                  </span>
+                    <span>
+                      {item.name} × {item.quantity}
+                    </span>
+
+                    <span>
+                      ₹{item.price * item.quantity}
+                    </span>
+                  </div>
                 ))}
+
               </div>
+
+            </div>
+
+            {/* Payment Method */}
+            <div className="border-t mt-5 pt-4 flex justify-between">
+
+              <span className="font-semibold">
+                Payment Method
+              </span>
+
+              <span>
+                {order.paymentMethod}
+              </span>
+
             </div>
 
             {/* Total */}
-            <div className="mt-5 pt-4 border-t border-gray-200 flex justify-between items-center">
-              <span className="text-gray-600">
+            <div className="flex justify-between items-center mt-4">
+
+              <span className="text-lg font-bold">
                 Total Amount
               </span>
 
-              <span className="text-xl font-bold text-gray-900">
-                ₹{order.total}
+              <span className="text-xl font-bold text-red-600">
+                ₹{order.total.toFixed(2)}
               </span>
+
             </div>
+
           </div>
         ))}
+
       </div>
     </div>
   );

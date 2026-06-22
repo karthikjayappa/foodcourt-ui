@@ -28,31 +28,56 @@ const Checkout = () => {
 
   const handlePlaceOrder = () => {
     if (
-      !formData.customerName ||
-      !formData.phone ||
-      !formData.tableNumber
+      !formData.customerName.trim() ||
+      !formData.phone.trim() ||
+      !formData.tableNumber.trim()
     ) {
       alert("Please fill all fields");
       return;
     }
 
     const orderData = {
-      ...formData,
-      items: cart,
+      id: `ORD${Date.now()}`,
+
+      vendor:
+        cart.length > 0
+          ? cart[0].vendorName || "Food Court"
+          : "Food Court",
+
+      // FIXED ITEMS FORMAT
+      items: cart.map((item) => ({
+        name: item.name,
+        quantity: item.quantity,
+        price: item.price,
+      })),
+
+      customerName: formData.customerName,
+      phone: formData.phone,
+      tableNumber: formData.tableNumber,
+      paymentMethod: formData.paymentMethod,
+
       subtotal,
       tax,
       total,
-      orderDate: new Date(),
-      status: "Pending",
+
+      status: "Preparing",
+
+      date: new Date().toLocaleDateString("en-GB", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+      }),
     };
 
-    console.log("Order Data:", orderData);
+    const existingOrders =
+      JSON.parse(localStorage.getItem("orders")) || [];
 
-    /*
-      FUTURE BACKEND
+    localStorage.setItem(
+      "orders",
+      JSON.stringify([...existingOrders, orderData])
+    );
 
-      axios.post("/api/orders", orderData)
-    */
+    console.log("Order Saved:", orderData);
 
     alert("Order Placed Successfully!");
 
@@ -65,7 +90,6 @@ const Checkout = () => {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-
           <h1 className="text-3xl font-bold mb-3">
             Cart is Empty
           </h1>
@@ -73,7 +97,6 @@ const Checkout = () => {
           <p className="text-gray-500">
             Add items before checkout.
           </p>
-
         </div>
       </div>
     );
@@ -81,22 +104,19 @@ const Checkout = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-10">
-
       <h1 className="text-4xl font-bold mb-8">
         Checkout
       </h1>
 
       <div className="grid lg:grid-cols-2 gap-8">
 
-        {/* Customer Details */}
+        {/* Customer Information */}
         <div className="bg-white border border-gray-200 rounded-lg p-6">
-
           <h2 className="text-2xl font-semibold mb-6">
             Customer Information
           </h2>
 
           <div className="space-y-4">
-
             <input
               type="text"
               name="customerName"
@@ -134,20 +154,16 @@ const Checkout = () => {
               <option value="Cash">Cash</option>
               <option value="Card">Card</option>
             </select>
-
           </div>
-
         </div>
 
         {/* Order Summary */}
         <div className="bg-white border border-gray-200 rounded-lg p-6">
-
           <h2 className="text-2xl font-semibold mb-6">
             Order Summary
           </h2>
 
           <div className="space-y-4">
-
             {cart.map((item) => (
               <div
                 key={item.id}
@@ -168,11 +184,9 @@ const Checkout = () => {
                 </p>
               </div>
             ))}
-
           </div>
 
           <div className="mt-6 border-t pt-6 space-y-3">
-
             <div className="flex justify-between">
               <span>Subtotal</span>
               <span>₹{subtotal.toFixed(2)}</span>
@@ -187,7 +201,6 @@ const Checkout = () => {
               <span>Total</span>
               <span>₹{total.toFixed(2)}</span>
             </div>
-
           </div>
 
           <button
@@ -196,11 +209,8 @@ const Checkout = () => {
           >
             Place Order
           </button>
-
         </div>
-
       </div>
-
     </div>
   );
 };
