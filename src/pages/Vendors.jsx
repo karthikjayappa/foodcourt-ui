@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import vendors from "../data/vendors";
-import VendorCard from "../components/vendor/VendorCard";
+import VendorCard from "../components/vendor/VendorCard.jsx";
 
 const Vendors = () => {
   const [filterCategory, setFilterCategory] = useState("All");
