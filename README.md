@@ -1,16 +1,122 @@
-# React + Vite
+# Food Court Management System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern multi-vendor food ordering web application built with React and Tailwind CSS.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+* Multi-vendor food court interface
+* Browse vendors and menus
+* Add items to cart
+* Update item quantities
+* Checkout process
+* Order management
+* Order history using Local Storage
+* Responsive design
+* Toast notifications
+* Dynamic cart counter
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Frontend
 
-## Expanding the ESLint configuration
+* React.js
+* Vite
+* React Router DOM
+* Context API
+* Tailwind CSS
+* React Hot Toast
+* React Icons
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Project Structure
+
+src/
+
+├── components/
+
+├── contexts/
+
+├── data/
+
+├── pages/
+
+├── routes/
+
+└── assets/
+
+## Pages
+
+### Home Page
+
+* Hero section
+* Food categories
+* Featured vendors
+* Statistics
+* Call-to-action section
+
+### Vendors Page
+
+* Vendor listing
+* Search vendors
+* Category filtering
+* Sorting options
+
+### Vendor Details
+
+* Vendor information
+* Menu display
+* Add to cart
+
+### Cart
+
+* Quantity management
+* Remove items
+* Order summary
+* Checkout navigation
+
+### Checkout
+
+* Customer information
+* Payment selection
+* Order placement
+
+### Orders
+
+* Order history
+* Order status
+* Order details
+
+## Installation
+
+Clone the repository:
+
+git clone <repository-url>
+
+Navigate to project folder:
+
+cd food-court
+
+Install dependencies:
+
+npm install
+
+Run development server:
+
+npm run dev
+
+Build project:
+
+npm run build
+
+## Future Enhancements
+
+* Backend integration
+* User authentication
+* Vendor dashboard
+* Admin panel
+* Online payment gateway
+* Real-time order tracking
+* Database integration
+
+## Author
+
+Developed as a Food Court Management System frontend project using React and Tailwind CSS.
