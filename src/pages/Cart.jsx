@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { CartContext } from "../contexts/CartContext";
+import toast from "react-hot-toast";
 
 const Cart = () => {
   const navigate = useNavigate();
@@ -83,7 +84,10 @@ const Cart = () => {
 
                 {/* Remove Button */}
                 <button
-                  onClick={() => removeFromCart(item.id)}
+                  onClick={() => {
+                    removeFromCart(item.id);
+                    toast.error(`${item.name} removed from cart`);
+                  }}
                   className="text-red-600 hover:text-red-800 font-medium"
                 >
                   Remove
@@ -178,7 +182,10 @@ const Cart = () => {
               </button>
 
               <button
-                onClick={clearCart}
+                onClick={() => {
+                  clearCart();
+                  toast.success("Cart cleared");
+                }}
                 className="w-full border border-red-500 text-red-500 py-3 rounded hover:bg-red-50 transition"
               >
                 Clear Cart

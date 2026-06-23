@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CartContext } from "../contexts/CartContext";
+import toast from "react-hot-toast";
 
 const Checkout = () => {
   const navigate = useNavigate();
@@ -32,7 +33,7 @@ const Checkout = () => {
       !formData.phone.trim() ||
       !formData.tableNumber.trim()
     ) {
-      alert("Please fill all fields");
+      toast.error("Please fill all fields");
       return;
     }
 
@@ -44,7 +45,6 @@ const Checkout = () => {
           ? cart[0].vendorName || "Food Court"
           : "Food Court",
 
-      // FIXED ITEMS FORMAT
       items: cart.map((item) => ({
         name: item.name,
         quantity: item.quantity,
@@ -79,11 +79,15 @@ const Checkout = () => {
 
     console.log("Order Saved:", orderData);
 
-    alert("Order Placed Successfully!");
-
+    // Clear cart immediately
     clearCart();
 
-    navigate("/orders");
+    toast.success("Order placed successfully!");
+
+    // Navigate after short delay
+    setTimeout(() => {
+      navigate("/orders");
+    }, 500);
   };
 
   if (cart.length === 0) {

@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import vendors from "../data/vendors";
 import menuItems from "../data/menuItems";
 import { CartContext } from "../contexts/CartContext";
+import toast from "react-hot-toast";
 
 const VendorDetails = () => {
   // FIX 1: Match route param name
@@ -52,11 +53,13 @@ const VendorDetails = () => {
   );
 
   const handleAddToCart = (item) => {
-    addToCart({
-      ...item,
-      vendorName: vendor.name,
-    });
-  };
+  addToCart({
+    ...item,
+    vendorName: vendor.name,
+  });
+
+  toast.success(`${item.name} added to cart`);
+};
 
   return (
     <div className="min-h-screen bg-gray-50">

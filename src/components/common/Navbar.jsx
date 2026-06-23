@@ -28,8 +28,9 @@ const Navbar = () => {
     }`;
 
   return (
-    <nav className="sticky top-0 z-50 bg-white border-b border-gray-200">
+    <nav className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
         <div className="flex justify-between items-center h-16">
 
           {/* Logo */}
@@ -42,7 +43,10 @@ const Navbar = () => {
               alt="Food Court"
               className="h-8 w-8 object-contain"
             />
-            <span>FOOD COURT</span>
+
+            <span className="hidden sm:block">
+              FOOD COURT
+            </span>
           </NavLink>
 
           {/* Desktop Navigation */}
@@ -58,19 +62,19 @@ const Navbar = () => {
             ))}
           </div>
 
-          {/* Right Side */}
+          {/* Right Section */}
           <div className="flex items-center gap-5">
 
-            {/* Cart */}
+            {/* Cart Icon */}
             <NavLink
               to="/cart"
               className="relative text-gray-900 hover:text-[#E50010] transition-colors"
             >
-              <FiShoppingCart size={22} />
+              <FiShoppingCart size={24} />
 
               {cartCount > 0 && (
-                <span className="absolute -top-2 -right-2 bg-[#E50010] text-white text-[10px] font-bold rounded-full h-5 w-5 flex items-center justify-center">
-                  {cartCount}
+                <span className="absolute -top-2 -right-2 min-w-[20px] h-5 px-1 bg-[#E50010] text-white text-[10px] font-bold rounded-full flex items-center justify-center">
+                  {cartCount > 99 ? "99+" : cartCount}
                 </span>
               )}
             </NavLink>
@@ -78,7 +82,9 @@ const Navbar = () => {
             {/* Mobile Menu Button */}
             <button
               className="md:hidden text-gray-900"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              onClick={() =>
+                setIsMenuOpen(!isMenuOpen)
+              }
             >
               {isMenuOpen ? (
                 <FiX size={24} />
@@ -88,25 +94,33 @@ const Navbar = () => {
             </button>
 
           </div>
+
         </div>
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="md:hidden border-t border-gray-200 py-4">
+          <div className="md:hidden border-t border-gray-200 py-4 animate-fadeIn">
+
             <div className="flex flex-col space-y-4">
+
               {navItems.map((item) => (
                 <NavLink
                   key={item.path}
                   to={item.path}
-                  onClick={() => setIsMenuOpen(false)}
+                  onClick={() =>
+                    setIsMenuOpen(false)
+                  }
                   className={linkClasses}
                 >
                   {item.label}
                 </NavLink>
               ))}
+
             </div>
+
           </div>
         )}
+
       </div>
     </nav>
   );
