@@ -1,10 +1,10 @@
 import { Routes, Route } from "react-router-dom";
-import Home from "../pages/Home";
-import Vendors from "../pages/Vendors";
-import VendorDetails from "../pages/VendorDetails";
-import Cart from "../pages/Cart";
-import Orders from "../pages/Orders";
-import Checkout from "../pages/Checkout";
+import Home from "../pages/Home.jsx";
+import Vendors from "../pages/Vendors.jsx";
+import VendorDetails from "../pages/VendorDetails.jsx";
+import Cart from "../pages/Cart.jsx";
+import Orders from "../pages/Orders.jsx";
+import Checkout from "../pages/Checkout.jsx";
 
 const AppRoutes = () => {
   return (
